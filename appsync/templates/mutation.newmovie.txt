@@ -1,0 +1,9 @@
+{
+    "version": "2018-05-29",
+    "method": "POST",
+    ## E.G. if full path is https://api.xxxxxxxxx.com/posts then resourcePath would be /posts **
+    "resourcePath": "/beta/movies",
+    "params":{
+        "body":$util.toJson($ctx.args),
+    }
+}

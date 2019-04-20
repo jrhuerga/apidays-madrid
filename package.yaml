@@ -1,0 +1,125 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'movies-app
+
+  Movies and Reviews APIs
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+Resources:
+  ListMoviesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://moviesbucket2019b/f45bc5422afa17a5308967ac301a605d
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Movies:
+          Type: Api
+          Properties:
+            Path: /movies
+            Method: get
+            RestApiId:
+              Ref: Movies
+  AddMoviesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://moviesbucket2019b/180988e2048a700f54beddd5e25cf62f
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Movies:
+          Type: Api
+          Properties:
+            Path: /movies
+            Method: post
+            RestApiId:
+              Ref: Movies
+  GetMoviesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://moviesbucket2019b/e40dce37f8469f60df9ddfcd76a83d1f
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Movies:
+          Type: Api
+          Properties:
+            Path: /movies/{id}
+            Method: get
+            RestApiId:
+              Ref: Movies
+  ListReviewsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://moviesbucket2019b/84c21aed0c46e1c4259807e4455a8a40
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Reviews:
+          Type: Api
+          Properties:
+            Path: /reviews
+            Method: get
+            RestApiId:
+              Ref: Reviews
+  AddReviewsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://moviesbucket2019b/22c6511a17ddae6d4d06afa4a8efa40a
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Reviews:
+          Type: Api
+          Properties:
+            Path: /reviews
+            Method: post
+            RestApiId:
+              Ref: Reviews
+  GetReviewsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://moviesbucket2019b/a7b3b054bb62245aff35afa683ae9c03
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Reviews:
+          Type: Api
+          Properties:
+            Path: /reviews/{id}
+            Method: get
+            RestApiId:
+              Ref: Reviews
+  Movies:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: movies
+      StageName: beta
+  Reviews:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: reviews
+      StageName: beta
+  DynamoMoviesTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: Movies
+      PrimaryKey:
+        Name: id
+        Type: Number
+  DynamoReviewsTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: Reviews
+      PrimaryKey:
+        Name: id
+        Type: Number

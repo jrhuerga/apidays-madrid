@@ -1,0 +1,166 @@
+{
+	"info": {
+		"_postman_id": "b92942e7-1ae7-4b71-bc7d-22df1923dcfc",
+		"name": "APIDays",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Pulp Fiction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\" : \"Pulp Fiction\",\n\"year\" : 1994,\n\"director\" : \"Quentin Tarantino\"\n}"
+				},
+				"url": {
+					"raw": "{{movies}}/beta/movies",
+					"host": [
+						"{{movies}}"
+					],
+					"path": [
+						"beta",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{movies}}/beta/movies",
+					"host": [
+						"{{movies}}"
+					],
+					"path": [
+						"beta",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Just one movie",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{movies}}/beta/movies/422",
+					"host": [
+						"{{movies}}"
+					],
+					"path": [
+						"beta",
+						"movies",
+						"422"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Review Pulp Fiction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"idMovie\": 422,\n\t\"rating\" : \"4\",\n\t\"comment\" : \"Pulp Fiction. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis diam quis lectus consequat, eu consequat elit dictum. \",\n\t\"spoiler\" : \"Pulp Fiction. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis diam quis lectus consequat, eu consequat elit dictum. \"\n}"
+				},
+				"url": {
+					"raw": "{{reviews}}/beta/reviews",
+					"host": [
+						"{{reviews}}"
+					],
+					"path": [
+						"beta",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All reviews",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{reviews}}/beta/reviews",
+					"host": [
+						"{{reviews}}"
+					],
+					"path": [
+						"beta",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Just one review",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{reviews}}/beta/reviews/356",
+					"host": [
+						"{{reviews}}"
+					],
+					"path": [
+						"beta",
+						"reviews",
+						"356"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All reviews by idMovie",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{reviews}}/beta/reviews?idMovie=422",
+					"host": [
+						"{{reviews}}"
+					],
+					"path": [
+						"beta",
+						"reviews"
+					],
+					"query": [
+						{
+							"key": "idMovie",
+							"value": "422"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

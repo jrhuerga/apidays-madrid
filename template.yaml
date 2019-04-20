@@ -1,0 +1,135 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  movies-app
+
+  Movies and Reviews APIs
+  
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  ListMoviesFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: lambda/movies/list/
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Movies:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /movies
+            Method: get
+            RestApiId: !Ref Movies
+  AddMoviesFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: lambda/movies/add/
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Movies:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /movies
+            Method: post
+            RestApiId: !Ref Movies
+  GetMoviesFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: lambda/movies/get/
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Movies:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /movies/{id}
+            Method: get
+            RestApiId: !Ref Movies
+  ListReviewsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: lambda/reviews/list/
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Reviews:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /reviews
+            Method: get
+            RestApiId: !Ref Reviews
+  AddReviewsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: lambda/reviews/add/
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Reviews:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /reviews
+            Method: post
+            RestApiId: !Ref Reviews
+  GetReviewsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: lambda/reviews/get/
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Reviews:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /reviews/{id}
+            Method: get
+            RestApiId: !Ref Reviews
+  Movies:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: movies
+      StageName: beta
+  Reviews:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: reviews
+      StageName: beta
+  DynamoMoviesTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: Movies
+      PrimaryKey:
+        Name: id
+        Type: Number
+  DynamoReviewsTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: Reviews
+      PrimaryKey:
+        Name: id
+        Type: Number
+
+#Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  # MoviesApi:
+  #  Description: "API Gateway endpoint URL for Prod stage for Movies function"
+  #  Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/movies/"
+  #ListMoviesFunction:
+  #  Description: "List Movies Lambda Function ARN"
+  #  Value: !GetAtt ListMoviesFunction.Arn
+  #ListMoviesFunctionIamRole:
+  #  Description: "Implicit IAM Role created for List Movies function"
+  #  Value: !GetAtt ListMoviesFunctionRole.Arn
